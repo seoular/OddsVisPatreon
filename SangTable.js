@@ -101,7 +101,15 @@ export default function SangTable(props) {
 
   // console.log(props.espnPlayerMap)
   const mapNewVisList = (list, espnPlayerMap) => {
-    let meanAndStdDev = calculateMeanAndStdDev(list.slice(0, 23));
+    let meanAndStdDev;
+    // if(list.length < 50){
+    //   meanAndStdDev =  calculateMeanAndStdDev(list.slice(0, 23));
+    // } else{
+      meanAndStdDev =  calculateMeanAndStdDev(list);
+
+    // }
+
+
     let mean = meanAndStdDev.meanValue;
     let stdDev = meanAndStdDev.stddevValue;
 
@@ -125,6 +133,12 @@ export default function SangTable(props) {
     <div className="SangTable">
       <table style={{}}>
         <tr>
+          <th
+            style={{
+              width: "20px"
+            }}
+          >
+          </th>
           <th
             style={{
               width: "500px"
@@ -154,8 +168,19 @@ export default function SangTable(props) {
             ESPN proj
           </th>
         </tr>
-        {visList.map((x) => (
+        {visList.map((x, ix) => (
           <tr>
+            <td 
+            style={{
+              backgroundColor: x.calculatedColor,
+              color: "white",
+              border: "1px solid " + x.calculatedColor,
+              borderRadius: "10px",
+              whiteSpace: "nowrap",              
+              fontSize: ".5rem"
+            }}>
+              {ix+1}
+            </td>
             <td
               style={{
                 backgroundColor: x.calculatedColor,

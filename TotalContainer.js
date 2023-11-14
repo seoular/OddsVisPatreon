@@ -21,6 +21,7 @@ function TotalContainer() {
   const [selectedPosition, setSelectedPosition] = useState(0);
   const [playerList, setPlayerList] = useState([]);
   const [playerMap, setPlayerMap] = useState(new Map())
+  const [selectedMode, setSelectedMode] = useState(0);
 
   const scrapeEspnStats = async () => {
     const getUrl =
@@ -91,8 +92,19 @@ function TotalContainer() {
     setPlayerMap(playerMap)
   };
 
-  const scrapeData = async (pos) => {
+  const scrapeData = async (pos, mode) => {
     const sangPProps = new Map();
+
+    let receptionMultiplier = .5;
+
+
+    if(mode == 0)
+      receptionMultiplier = .5;
+    else if(mode == 1)
+      receptionMultiplier = 0;
+    else if (mode == 2)
+      receptionMultiplier = 1;
+
     var getUrl = "https://raw.githubusercontent.com/seoular/test/main/sangtest";
     await fetch(getUrl)
       .then((response) => {
@@ -173,9 +185,10 @@ function TotalContainer() {
               if (typeof temp == "undefined") {
                 temp = 0;
               }
+              // console.log('name ' + name + ' ' + temp + playerOdds.outcomes[0].price.handicap * receptionMultiplier)
               sangPProps.set(
                 name,
-                temp + playerOdds.outcomes[0].price.handicap * 0.5
+                temp + playerOdds.outcomes[0].price.handicap * receptionMultiplier
               );
             }
           }
@@ -236,7 +249,6 @@ function TotalContainer() {
         );
 
         setPlayerList(finalList);
-
         return finalList;
       });
     // .catch((err) => {
@@ -249,8 +261,8 @@ function TotalContainer() {
     scrapeEspnStats()
   }, [])
   useEffect(() => {
-    scrapeData(selectedPosition).catch(console.error);
-  }, [selectedPosition]); 
+    scrapeData(selectedPosition, selectedMode).catch(console.error);
+  }, [selectedPosition, selectedMode]); 
   
 
   const redirectToPatreon = () => {
@@ -260,7 +272,7 @@ function TotalContainer() {
   return (
     <div>
       <div>
-        <div>
+        <div style={{display:'flex'}}>
           <select
             defaultValue={selectedPosition}
             onChange={(e) => {
@@ -275,8 +287,19 @@ function TotalContainer() {
             <option value="98">FLEX</option>
             <option value="99">SUPERFLEX</option>
           </select>
+          <select
+            defaultValue={selectedMode}
+            onChange={(e) => {
+              setSelectedMode(parseInt(e.target.value));
+            }}
+            style={{ display: "flex", marginLeft: "20px" }}
+          >
+            <option value="0">Half PPR</option>
+            <option value="1">Standard</option>
+            <option value="2">Full PPR</option>
+          </select>
         </div>
-        <SangTable selectedPosition={selectedPosition} evList={playerList} espnPlayerMap={playerMap} />
+        <SangTable  evList={playerList} espnPlayerMap={playerMap} />
         
       
       </div>

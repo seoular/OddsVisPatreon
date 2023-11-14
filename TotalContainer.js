@@ -112,7 +112,7 @@ function TotalContainer() {
       })
       .then((data) => {
         let allNflGames = data[0].events.slice();
-
+        
         for (let i = 0; i < allNflGames.length; i++) {
           let eachGameTDOutcomes = allNflGames[i].displayGroups
             .find((x) => x.id == "100-1870")

@@ -231,7 +231,7 @@ function TotalContainer() {
         let finalList = Array.from(sortedMap.entries()).filter(
           (x) =>
             typeof PlayerPosMap.get(x[0]) !== "undefined" &&
-            PlayerPosMap.get(x[0]) == pos &&
+            (PlayerPosMap.get(x[0]) == pos || pos == 99 || (pos == 98 && PlayerPosMap.get(x[0]) !== 0))  &&
             x[1] > 5
         );
 
@@ -272,6 +272,8 @@ function TotalContainer() {
             <option value="1">RB</option>
             <option value="2">WR</option>
             <option value="3">TE</option>
+            <option value="98">FLEX</option>
+            <option value="99">SUPERFLEX</option>
           </select>
         </div>
         <SangTable selectedPosition={selectedPosition} evList={playerList} espnPlayerMap={playerMap} />

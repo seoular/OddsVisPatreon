@@ -153,7 +153,7 @@ export default function SangTable(props) {
           >
             EV
           </th>
-          <th
+          {/* <th
             style={{
               width: "46px"
             }}
@@ -166,7 +166,7 @@ export default function SangTable(props) {
             }}
           >
             ESPN proj
-          </th>
+          </th> */}
         </tr>
         {visList.map((x, ix) => (
           <tr>
@@ -212,7 +212,7 @@ export default function SangTable(props) {
             >
               {<div>{x.playerEV.toFixed(2)}</div>}
             </td>
-            <td
+            {/* <td
               style={{
                 backgroundColor: x.calculatedColor,
                 color: "white",
@@ -233,7 +233,7 @@ export default function SangTable(props) {
               }}
             >
               {<div>{x.espnValues?.proj}</div>}
-            </td>
+            </td> */}
           </tr>
         ))}
       </table>

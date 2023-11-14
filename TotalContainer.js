@@ -2,6 +2,7 @@ import "./styles.css";
 import React, { useState, useEffect } from "react";
 import { PlayerPosMap } from "./constants";
 import SangTable from "./SangTable";
+import axios from 'axios';
 
 const slotcodes = {
   0: 'QB',   // Quarterback
@@ -249,54 +250,17 @@ function TotalContainer() {
   }, [])
   useEffect(() => {
     scrapeData(selectedPosition).catch(console.error);
-  }, [selectedPosition]);
+  }, [selectedPosition]); 
+  
 
-  const myFunction = (e) => {
-    const axios = require('axios');
-
-    // Replace these values with your actual client ID, redirect URI, and optional parameters
-    const CLIENT_ID = '1e15hQK-KU94SRlMJnihFhutX07VCj4A4rpTxrmp9H_SaRhQPL2zBHmIjOmw_r4r';
-    const CLIENT_SECRET = 'CFZCW8qZNwf7y80AV0tmLfq86V2phIT5Tv6D247rDMoDnyhfSd7hHwTQZmWgCJAw'
-    const REDIRECT_URI = 'https://www.evProjecter.com/';
-
-    // Construct the URL with the parameters
-    const url = `https://www.patreon.com/oauth2/authorize?response_type=code&client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}`;
-
-    // Make the GET request
-    axios.get(url)
-      .then(response => {
-        // Handle the response here
-        console.log(response.data);
-        const postData = {
-          code: response.data,
-          grant_type: 'authorization_code',
-          client_id: CLIENT_ID,
-          client_secret: CLIENT_SECRET,
-          redirect_uri: REDIRECT_URI,
-        };
-        
-        // Make the POST request
-        axios.post('https://www.patreon.com/api/oauth2/token', postData)
-          .then(response => {
-            // Handle the response here
-            console.log(response.data);
-          })
-          .catch(error => {
-            // Handle errors here
-            console.error(error);
-          });
-      })
-      .catch(error => {
-        // Handle errors here
-        console.error(error);
-      });
+  const redirectToPatreon = () => {
+    window.location.href = 'https://www.patreon.com/evProjecter';
   }
 
   return (
     <div>
       <div>
         <div>
-          <button onclick="myFunction()">Click me</button>
           <select
             defaultValue={selectedPosition}
             onChange={(e) => {
@@ -311,6 +275,14 @@ function TotalContainer() {
           </select>
         </div>
         <SangTable selectedPosition={selectedPosition} evList={playerList} espnPlayerMap={playerMap} />
+        
+      
+      </div>
+      <div class="patreonSection">
+        <div>
+          Access the Pro version with extra statistical insight and future functionality by supporting my Patreon link below
+        </div>
+        <button class="button" onClick={(e) => {redirectToPatreon()}}><span>evProjecterPro</span></button>
       </div>
     </div>
   );
